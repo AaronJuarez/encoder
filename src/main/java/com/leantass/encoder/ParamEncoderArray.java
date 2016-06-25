@@ -1,67 +1,76 @@
 package com.leantass.encoder;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import java.util.Map.Entry;
 
+import java.util.Map.Entry;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+/**
+ * Specifies the behavior to encode arrays.
+ *
+ * @author jovanimtzrico@gmail.com (Jovani Rico)
+ */
 public class ParamEncoderArray {
 
-  private static final String EQUAL = "=";
-  private static final String LEFT_BRACKET = "[";
-  private static final String RIGHT_BRACKET = "]";
-  private static final String COMMA = ",";
+  private static final String START = "[";
+  private static final String END = "]";
+  private static final String DELIMITER = ",";
+  private static final String EMPTY = "[]";
+  private final ParamEncoderObject objectEncoder = new ParamEncoderObject();
 
-  public String encode(Entry<String, Object> entry, Rule rule) {
-    checkNotNull(entry, "SortedMap is missing.");
-    StringBuilder resultString = new StringBuilder();
+  public String encode(Entry<String, Object> entry, RuleEncoder rule) {
+    checkNotNull(entry, "Entry is missing.");
+    String resultString = "";
     if (rule != null) {
-      for(int i=0; i < ((String[])entry.getValue()).length; i++){
-        encode(resultString, rule, entry);
+      resultString = encode(rule, entry);
+      if (resultString.equals(EMPTY)) {
+        resultString = "";
       }
     }
-    return resultString.toString();
+    return resultString;
   }
 
-  private void encode(StringBuilder resultString, Rule currentRule,
-      Entry<String, Object> entry) {
-    System.out.println("Array " + entry.getKey());
-    resultString.append(entry.getKey());
-  }
-
-
-  private String encodeStringLeft(Entry<String, Object> entry, int width) {
-    StringBuilder resultString = new StringBuilder();
-    String value = entry.getValue().toString();
-    if (value.length() > width) {
-      String tmp = concatArray(entry, value.substring(0, width));
-      resultString.append(tmp);
-    } else {
-//      defaultConcat(resultString, entry);
+  private String encode(RuleEncoder rule, Entry<String, Object> entry) {
+    StringBuilder resultString = new StringBuilder(START);
+    Object[] array = (Object[]) entry.getValue();
+    for (Object object : array) {
+      String result = 
+          objectEncoder.encode(new DefaultEntry(entry.getKey(), object), rule);
+      if (resultString.length() + result.length() + 2 <= rule.getArrayWidth()) {
+        if (resultString.length() > 1) {
+          resultString.append(DELIMITER);
+        }
+        resultString.append(result);
+      } else {
+        break;
+      }
     }
-    return resultString.toString();
+    return resultString.append(END).toString();
   }
 
-  private String encodeStringRight(Entry<String, Object> entry, int width) {
-    StringBuilder resultString = new StringBuilder();
-    String value = entry.getValue().toString();
-    if (value.length() > width) {
-      String tmp = concatArray(entry, value.substring(value.length() - width));
-      resultString.append(tmp);
-    } else {
-//      defaultConcat(resultString, entry);
+  private class DefaultEntry implements Entry<String, Object> {
+
+    private final String key;
+    private final Object value;
+
+    private DefaultEntry(String key, Object value) {
+      this.key = key;
+      this.value = value;
     }
-    return resultString.toString();
-  }
 
+    @Override
+    public String getKey() {
+      return key;
+    }
 
-  private String concatArray(Entry<String, Object> entry, String value) {
-    return COMMA+value;
-  }
-  
-  private String concatInitialArray(Entry<String, Object> entry, String value) {
-    return entry.getKey() + EQUAL + LEFT_BRACKET+value;
-  }
-  
-  private String concatEndArray(Entry<String, Object> entry, String value) {
-    return RIGHT_BRACKET;
+    @Override
+    public Object getValue() {
+      return value;
+    }
+
+    @Override
+    public Object setValue(Object value) {
+      throw new UnsupportedOperationException("Not supported yet.");
+    }
   }
 }

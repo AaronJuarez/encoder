@@ -4,52 +4,44 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.leantass.encoder.ParamEncoder.TruncationStyle;
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Specifies the encoding rules.
  *
  * @author jovanimtzrico@gmail.com (Jovani Rico)
  */
-public final class Rule {
+public final class RuleEncoder {
 
   // An object is considered immutable if its state cannot change after it is
   // constructed.
   private final TruncationStyle style;
   private final int width;
-  private final int maxArrayWidth;
+  private final int arrayWidth;
 
-  private Rule(Builder builder) {
+  private RuleEncoder(Builder builder) {
     this.style = builder.style;
     this.width = builder.width;
-    this.maxArrayWidth = builder.maxArrayWidth;
+    this.arrayWidth = builder.arrayWidth;
   }
 
-  /**
-   * @return the style
-   */
-  public TruncationStyle getStyle() {
-    return style;
-  }
-
-  /**
-   * @return the width
-   */
   public int getWidth() {
     return width;
   }
 
-  /**
-   * @return the maxArrayWidth
-   */
-  public int getMaxArrayWidth() {
-    return maxArrayWidth;
+  public int getArrayWidth() {
+    return arrayWidth;
   }
-  
+
+  public TruncationStyle getStyle() {
+    return this.style;
+  }
 
   // Builder pattern builds a complex object using simple objects and using a
   // step by step approach.
   /**
-   * Builder of {@link Rule} instances.
+   * Builder of {@link RuleEncoder} instances.
    *
    * @author jovanimtzrico@gmail.com (Jovani Rico)
    */
@@ -57,7 +49,7 @@ public final class Rule {
 
     private TruncationStyle style;
     private int width;
-    private int maxArrayWidth;
+    private int arrayWidth;
 
     /**
      * Create a new instance.
@@ -76,29 +68,29 @@ public final class Rule {
      *
      * @param width specifies the desired width to be used
      * @return this {@code Builder} object
-     * @throws IllegalArgumentException if the specified width is negative.
+     * @throws IllegalArgumentException if the specified width is less than zero
      */
     public Builder width(int width) {
       // A fail-fast system is nothing but immediately report any failure
       // that is likely to lead to failure.
-      checkArgument(width > -1, "width cannot be negative.");
+      checkArgument(width > 0, "width cannot less than zero.");
       this.width = width;
       return this;
     }
-    
+
     /**
-     * Specifies the desired maxArrayWidth that will be used for the
+     * Specifies the desired width of the array that will be used for the
      * {@link TruncationStyle}.
      *
-     * @param maxArrayWidth specifies the desired maxArrayWidth to be used
+     * @param arrayWidth specifies the desired width of the array to be used
      * @return this {@code Builder} object
-     * @throws IllegalArgumentException if the specified width is negative.
+     * @throws IllegalArgumentException if the specified width is less than zero
      */
-    public Builder maxArrayWidth(int maxArrayWidth) {
+    public Builder arrayWidth(int arrayWidth) {
       // A fail-fast system is nothing but immediately report any failure
       // that is likely to lead to failure.
-      checkArgument(maxArrayWidth > -1, "maxArrayWidth cannot be negative.");
-      this.maxArrayWidth = maxArrayWidth;
+      checkArgument(arrayWidth > 0, "width cannot be less than zero.");
+      this.arrayWidth = arrayWidth;
       return this;
     }
 
@@ -108,8 +100,8 @@ public final class Rule {
      *
      * @return a new instance with the desired configuration
      */
-    public Rule build() {
-      return new Rule(this);
+    public RuleEncoder build() {
+      return new RuleEncoder(this);
     }
 
     /**

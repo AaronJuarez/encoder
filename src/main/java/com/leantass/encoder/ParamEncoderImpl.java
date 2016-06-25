@@ -1,51 +1,54 @@
 package com.leantass.encoder;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+
+import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Map;
-
 import java.util.Map.Entry;
 import java.util.SortedMap;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 public class ParamEncoderImpl implements ParamEncoder {
 
-  private final Map<String, Rule> rules = new HashMap<>();
   private static final String AND = "&";
+  private static final String EQUAL = "=";
+  private final Map<String, RuleEncoder> rules = new HashMap<>();
+  private final ParamEncoderObject objectEncoder = new ParamEncoderObject();
+  private final ParamEncoderArray arrayEncoder = new ParamEncoderArray();
 
   @Override
   public void addFieldTruncationRule(String fieldName, TruncationStyle style,
       int maxWidth) {
-    Rule newRule = Rule.Builder.builder(style).width(maxWidth).build();
+    RuleEncoder newRule = RuleEncoder.Builder.builder(style).width(maxWidth).build();
     rules.put(fieldName, newRule);
   }
 
   @Override
   public void addArrayTruncationRule(String fieldName, int maxArrayWidth,
       TruncationStyle elemStyle, int maxElemWidth) {
-    Rule newRule = Rule.Builder.builder(elemStyle).width(maxElemWidth).maxArrayWidth(maxArrayWidth).build();
+    RuleEncoder newRule = RuleEncoder.Builder.builder(elemStyle).width(maxElemWidth)
+        .arrayWidth(maxArrayWidth).build();
     rules.put(fieldName, newRule);
   }
 
   @Override
   public String encode(SortedMap<String, Object> data) {
-    ParamEncoderObject encoderObject = new ParamEncoderObject();
-    ParamEncoderArray encoderArray = new ParamEncoderArray();
     checkNotNull(data, "SortedMap is missing.");
     StringBuilder resultString = new StringBuilder();
     for (Entry<String, Object> entry : data.entrySet()) {
-      if (resultString.length() > 0 && hasRule(entry)) {
-        resultString.append(AND);
-      }
-      if (entry.getValue() instanceof String[]) {
-        resultString.append(encoderArray.encode(entry, rules.get(entry.getKey())));
+      String tmp = null;
+      if (entry.getValue() instanceof Object[]) {
+        tmp = arrayEncoder.encode(entry, rules.get(entry.getKey()));
       } else {
-        resultString.append(encoderObject.encode(entry, rules.get(entry.getKey())));
+        tmp = objectEncoder.encode(entry, rules.get(entry.getKey()));
+      }
+      if (tmp.length() > 0) {
+        if (resultString.length() > 0) {
+          resultString.append(AND);
+        }
+        resultString.append(entry.getKey()).append(EQUAL).append(tmp);
       }
     }
     return resultString.toString();
-  }
-
-  public boolean hasRule(Entry<String, Object> entry) {
-    return rules.get(entry.getKey()) != null;
   }
 }

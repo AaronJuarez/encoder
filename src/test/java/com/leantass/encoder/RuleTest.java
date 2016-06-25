@@ -1,30 +1,52 @@
 package com.leantass.encoder;
 
 import static org.junit.Assert.*;
-
+import org.junit.Rule;
 import org.junit.Test;
 
-import com.leantass.encoder.Rule.Builder;
+import com.leantass.encoder.RuleEncoder.Builder;
+import org.junit.rules.ExpectedException;
 
 public class RuleTest {
 
   //Negative scenarios for fail fast are missing.
-  Rule rule;
+  RuleEncoder rule;
+  
+  @Rule
+  public final ExpectedException thrown = ExpectedException.none();
 
   @Test
   public void createRuleObject() {
-    Rule.Builder builder = Builder.builder(ParamEncoder.TruncationStyle.INTEGER);
+    Builder builder = Builder.builder(ParamEncoder.TruncationStyle.INTEGER);
     assertNull(rule);
     rule = builder.width(2).build();
     assertNotNull(rule);
   }
 
   @Test
-  public void ruleAttributes() {
-    Rule.Builder builder = Builder.builder(ParamEncoder.TruncationStyle.INTEGER);
+  public void ruleFieldAttributes() {
+    Builder builder = Builder.builder(ParamEncoder.TruncationStyle.INTEGER);
     rule = builder.width(2).build();
     assertNotNull(rule);
     assertEquals(rule.getWidth(), 2);
     assertEquals(rule.getStyle(), ParamEncoder.TruncationStyle.INTEGER);
+  }
+  
+  @Test
+  public void ruleArrayAttributes() {
+    Builder builder = Builder.builder(ParamEncoder.TruncationStyle.STRING_LEFT);
+    rule = builder.width(2).arrayWidth(10).build();
+    assertNotNull(rule);
+    assertEquals(rule.getWidth(), 2);
+    assertEquals(rule.getArrayWidth(), 10);
+    assertEquals(rule.getStyle(), ParamEncoder.TruncationStyle.STRING_LEFT);
+  }
+  
+  @Test
+  public void negativeAttributes() {
+    thrown.expect(IllegalArgumentException.class);
+    Builder builder = Builder.builder(ParamEncoder.TruncationStyle.INTEGER);
+    rule = builder.width(-2).build();
+    
   }
 }
