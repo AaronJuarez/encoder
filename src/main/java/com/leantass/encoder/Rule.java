@@ -16,19 +16,35 @@ public final class Rule {
   // constructed.
   private final TruncationStyle style;
   private final int width;
+  private final int maxArrayWidth;
 
   private Rule(Builder builder) {
     this.style = builder.style;
     this.width = builder.width;
+    this.maxArrayWidth = builder.maxArrayWidth;
   }
 
+  /**
+   * @return the style
+   */
+  public TruncationStyle getStyle() {
+    return style;
+  }
+
+  /**
+   * @return the width
+   */
   public int getWidth() {
     return width;
   }
 
-  public TruncationStyle getStyle() {
-    return this.style;
+  /**
+   * @return the maxArrayWidth
+   */
+  public int getMaxArrayWidth() {
+    return maxArrayWidth;
   }
+  
 
   // Builder pattern builds a complex object using simple objects and using a
   // step by step approach.
@@ -41,6 +57,7 @@ public final class Rule {
 
     private TruncationStyle style;
     private int width;
+    private int maxArrayWidth;
 
     /**
      * Create a new instance.
@@ -66,6 +83,22 @@ public final class Rule {
       // that is likely to lead to failure.
       checkArgument(width > -1, "width cannot be negative.");
       this.width = width;
+      return this;
+    }
+    
+    /**
+     * Specifies the desired maxArrayWidth that will be used for the
+     * {@link TruncationStyle}.
+     *
+     * @param maxArrayWidth specifies the desired maxArrayWidth to be used
+     * @return this {@code Builder} object
+     * @throws IllegalArgumentException if the specified width is negative.
+     */
+    public Builder maxArrayWidth(int maxArrayWidth) {
+      // A fail-fast system is nothing but immediately report any failure
+      // that is likely to lead to failure.
+      checkArgument(maxArrayWidth > -1, "maxArrayWidth cannot be negative.");
+      this.maxArrayWidth = maxArrayWidth;
       return this;
     }
 

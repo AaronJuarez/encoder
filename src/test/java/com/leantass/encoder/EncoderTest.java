@@ -32,6 +32,7 @@ public class EncoderTest {
     String result = encoder.encode(new TreeMap<String, Object>() {
       {
         put("int1", 100);
+        put("int2", 100);
         put("left2", "ABC");
         put("left3", "ABC");
       }

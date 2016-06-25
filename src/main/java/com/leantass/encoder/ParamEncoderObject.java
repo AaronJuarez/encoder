@@ -13,22 +13,14 @@ import java.util.Map.Entry;
  */
 public class ParamEncoderObject {
 
-  private static final String AND = "&";
   private static final String EQUAL = "=";
-  private final Map<String, Rule> rules = new HashMap<>();
 
-  public void addFieldTruncationRule(String fieldName, TruncationStyle style,
-      int maxWidth) {
-    Rule newRule = Rule.Builder.builder(style).width(maxWidth).build();
-    rules.put(fieldName, newRule);
-  }
-
-  public String encode(Entry<String, Object> entry) {
+  
+   public String encode(Entry<String, Object> entry, Rule rule) {
     checkNotNull(entry, "SortedMap is missing.");
     StringBuilder resultString = new StringBuilder();
-    Rule currentRule = rules.get(entry.getKey());
-    if (currentRule != null) {
-      encode(resultString, currentRule, entry);
+    if (rule != null) {
+      encode(resultString, rule, entry);
     }
     return resultString.toString();
   }
@@ -50,9 +42,6 @@ public class ParamEncoderObject {
         throw new UnsupportedOperationException("Operation not supported.");
     }
     if (encoded != null && encoded.length() > 0) {
-      if (resultString.length() > 0) {
-        resultString.append(AND);
-      }
       resultString.append(encoded);
     }
   }
