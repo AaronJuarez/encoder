@@ -1,9 +1,7 @@
 package com.leantass.encoder;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import com.leantass.encoder.ParamEncoder.TruncationStyle;
-import java.util.HashMap;
-import java.util.Map;
+
 import java.util.Map.Entry;
 
 /**
@@ -13,60 +11,42 @@ import java.util.Map.Entry;
  */
 public class ParamEncoderObject {
 
-  private static final String AND = "&";
-  private static final String EQUAL = "=";
-  private final Map<String, Rule> rules = new HashMap<>();
-
-  public void addFieldTruncationRule(String fieldName, TruncationStyle style,
-      int maxWidth) {
-    Rule newRule = Rule.Builder.builder(style).width(maxWidth).build();
-    rules.put(fieldName, newRule);
-  }
-
-  public String encode(Entry<String, Object> entry) {
+  public String encode(Entry<String, Object> entry, Rule rule) {
     checkNotNull(entry, "SortedMap is missing.");
-    StringBuilder resultString = new StringBuilder();
-    Rule currentRule = rules.get(entry.getKey());
-    if (currentRule != null) {
-      encode(resultString, currentRule, entry);
+    String resultString = "";
+    if (rule != null) {
+      resultString = encode(rule, entry);
     }
-    return resultString.toString();
+    return resultString;
   }
 
-  private void encode(StringBuilder resultString, Rule currentRule,
-      Entry<String, Object> entry) {
+  private String encode(Rule rule, Entry<String, Object> entry) {
     String encoded = null;
-    switch (currentRule.getStyle()) {
+    switch (rule.getStyle()) {
       case INTEGER:
-        encoded = encodeInteger(entry, currentRule.getWidth());
+        encoded = encodeInteger(entry, rule.getWidth());
         break;
       case STRING_LEFT:
-        encoded = encodeStringLeft(entry, currentRule.getWidth());
+        encoded = encodeStringLeft(entry, rule.getWidth());
         break;
       case STRING_RIGHT:
-        encoded = encodeStringRight(entry, currentRule.getWidth());
+        encoded = encodeStringRight(entry, rule.getWidth());
         break;
       default:
         throw new UnsupportedOperationException("Operation not supported.");
     }
-    if (encoded != null && encoded.length() > 0) {
-      if (resultString.length() > 0) {
-        resultString.append(AND);
-      }
-      resultString.append(encoded);
-    }
+    return encoded;
   }
 
   private String encodeInteger(Entry<String, Object> entry, int width) {
-    StringBuilder resultString = new StringBuilder();
+    String resultString;
     String value = entry.getValue().toString();
     if (isBeyondUpperBound(value, width)) {
-      String tmp = concat(entry, getLargestUpperBound(width));
-      resultString.append(tmp);
+      resultString = getLargestUpperBound(width);
     } else {
-      defaultConcat(resultString, entry);
+      resultString = value;
     }
-    return resultString.toString();
+    return resultString;
   }
 
   private boolean isBeyondUpperBound(String value, int bound) {
@@ -81,35 +61,24 @@ public class ParamEncoderObject {
   }
 
   private String encodeStringLeft(Entry<String, Object> entry, int width) {
-    StringBuilder resultString = new StringBuilder();
+    String resultString;
     String value = entry.getValue().toString();
     if (value.length() > width) {
-      String tmp = concat(entry, value.substring(0, width));
-      resultString.append(tmp);
+      resultString = value.substring(0, width);
     } else {
-      defaultConcat(resultString, entry);
+      resultString = value;
     }
-    return resultString.toString();
+    return resultString;
   }
 
   private String encodeStringRight(Entry<String, Object> entry, int width) {
-    StringBuilder resultString = new StringBuilder();
+    String resultString;
     String value = entry.getValue().toString();
     if (value.length() > width) {
-      String tmp = concat(entry, value.substring(value.length() - width));
-      resultString.append(tmp);
+      resultString = value.substring(value.length() - width);
     } else {
-      defaultConcat(resultString, entry);
+      resultString = value;
     }
-    return resultString.toString();
-  }
-
-  private void defaultConcat(StringBuilder resultString,
-      Entry<String, Object> entry) {
-    resultString.append(concat(entry, entry.getValue().toString()));
-  }
-
-  private String concat(Entry<String, Object> entry, String value) {
-    return entry.getKey() + EQUAL + value;
+    return resultString;
   }
 }

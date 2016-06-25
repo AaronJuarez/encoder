@@ -16,14 +16,20 @@ public final class Rule {
   // constructed.
   private final TruncationStyle style;
   private final int width;
+  private final int arrayWidth;
 
   private Rule(Builder builder) {
     this.style = builder.style;
     this.width = builder.width;
+    this.arrayWidth = builder.arrayWidth;
   }
 
   public int getWidth() {
     return width;
+  }
+
+  public int getArrayWidth() {
+    return arrayWidth;
   }
 
   public TruncationStyle getStyle() {
@@ -41,6 +47,7 @@ public final class Rule {
 
     private TruncationStyle style;
     private int width;
+    private int arrayWidth;
 
     /**
      * Create a new instance.
@@ -59,13 +66,29 @@ public final class Rule {
      *
      * @param width specifies the desired width to be used
      * @return this {@code Builder} object
-     * @throws IllegalArgumentException if the specified width is negative.
+     * @throws IllegalArgumentException if the specified width is less than zero
      */
     public Builder width(int width) {
       // A fail-fast system is nothing but immediately report any failure
       // that is likely to lead to failure.
-      checkArgument(width > -1, "width cannot be negative.");
+      checkArgument(width > 0, "width cannot less than zero.");
       this.width = width;
+      return this;
+    }
+
+    /**
+     * Specifies the desired width of the array that will be used for the
+     * {@link TruncationStyle}.
+     *
+     * @param arrayWidth specifies the desired width of the array to be used
+     * @return this {@code Builder} object
+     * @throws IllegalArgumentException if the specified width is less than zero
+     */
+    public Builder arrayWidth(int arrayWidth) {
+      // A fail-fast system is nothing but immediately report any failure
+      // that is likely to lead to failure.
+      checkArgument(arrayWidth > 0, "width cannot be less than zero.");
+      this.arrayWidth = arrayWidth;
       return this;
     }
 
