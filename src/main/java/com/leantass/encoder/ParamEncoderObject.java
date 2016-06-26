@@ -143,7 +143,7 @@ public class ParamEncoderObject {
   }
 
   /**
-   * Evaluates if the given parameter if is negative integer.
+   * Evaluates if the given parameter is a negative integer.
    *
    * @param number the parameter that will be evaluated
    * @return <b>true</b> if the provided parameter is negative. Otherwise, will return <b>false</b>
