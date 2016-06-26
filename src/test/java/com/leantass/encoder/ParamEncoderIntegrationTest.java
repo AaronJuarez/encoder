@@ -1,14 +1,20 @@
 package com.leantass.encoder;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.TreeMap;
-import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-public class EncoderTest {
+/**
+ * Integration tests for class {@link ParamEncoderImpl}.
+ *
+ * @author jovanimtzrico@gmail.com (Jovani Rico)
+ */
+public class ParamEncoderIntegrationTest {
 
   private ParamEncoder encoder;
   @Rule

@@ -14,7 +14,7 @@ import org.junit.rules.ExpectedException;
  *
  * @author jovanimtzrico@gmail.com (Jovani Rico)
  */
-public class RuleTest {
+public class RuleEncoderTest {
 
   //Negative scenarios for fail fast are missing.
   private RuleEncoder rule;

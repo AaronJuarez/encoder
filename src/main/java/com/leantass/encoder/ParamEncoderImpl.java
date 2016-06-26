@@ -7,6 +7,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.SortedMap;
 
+/**
+ * Specifies the behavior to encode parameters.
+ *
+ * @author jovanimtzrico@gmail.com (Jovani Rico)
+ */
 public class ParamEncoderImpl implements ParamEncoder {
 
   private static final String AND = "&";
