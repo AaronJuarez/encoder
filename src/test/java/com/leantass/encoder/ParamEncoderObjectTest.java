@@ -91,7 +91,7 @@ public class ParamEncoderObjectTest {
   }
 
   @Test
-  public void shouldThrowIllegalArgumentExceptionMissingEntry() {
+  public void shouldThrowIllegalArgumentExceptionEncodingNotSupported() {
     Map<String, Object> map = ImmutableMap.of("param1", (Object) 'd');
     Entry<String, Object> entry = map.entrySet().iterator().next();
 
