@@ -148,6 +148,7 @@ public class ParamEncoderObject implements Encoder {
    */
   private boolean isBeyondUpperBound(String value, int bound) {
     Integer intValue = Integer.valueOf(value);
+    System.out.println("intValue "+intValue);
     Double limit = Math.log10(intValue);
     return (limit.intValue() + 1) > bound;
   }
