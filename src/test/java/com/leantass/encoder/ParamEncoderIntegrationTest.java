@@ -3,7 +3,6 @@ package com.leantass.encoder;
 import static org.junit.Assert.assertEquals;
 
 import java.util.SortedMap;
-import java.util.TreeMap;
 
 import com.google.common.collect.ImmutableSortedMap;
 import org.junit.Before;
@@ -42,7 +41,7 @@ public class ParamEncoderIntegrationTest {
             "int4", (Object) 10);
     String result = encoder.encode(immutableSortedMap);
 
-    assertEquals(result, "int2=100&int3=99");
+    assertEquals("int2=100&int3=99", result);
   }
 
   @Test
@@ -57,7 +56,7 @@ public class ParamEncoderIntegrationTest {
             "right1", (Object) "ABC");
     String result = encoder.encode(immutableSortedMap);
 
-    assertEquals(result, "left2=ABC&right3=EF");
+    assertEquals("left2=ABC&right3=EF", result);
   }
 
   @Test
@@ -75,7 +74,7 @@ public class ParamEncoderIntegrationTest {
             "array4", (Object) new String[]{"ABC", "EF", "IJ"});
     String result = encoder.encode(immutableSortedMap);
 
-    assertEquals(result, "array1=[ABC,EF]&array3=[ABC,EFG,JKL]&array4=[AB,EF,IJ]");
+    assertEquals("array1=[ABC,EF]&array3=[ABC,EFG,JKL]&array4=[AB,EF,IJ]", result);
   }
 
   @Test
@@ -93,7 +92,7 @@ public class ParamEncoderIntegrationTest {
             "int1", (Object) 100);
     String result = encoder.encode(immutableSortedMap);
 
-    assertEquals(result, "array1=[ABC,EF]&int1=100&left2=ABC&left3=ABC");
+    assertEquals("array1=[ABC,EF]&int1=100&left2=ABC&left3=ABC", result);
   }
 
   @Test
@@ -105,20 +104,18 @@ public class ParamEncoderIntegrationTest {
     encoder.addFieldTruncationRule("int2", ParamEncoder.TruncationStyle.INTEGER, 2);
     encoder.addFieldTruncationRule("int3", ParamEncoder.TruncationStyle.INTEGER, 3);
     encoder.addArrayTruncationRule("array1", 10, ParamEncoder.TruncationStyle.STRING_RIGHT, 3);
-    String result = encoder.encode(new TreeMap<String, Object>() {
-      {
-        put("array1", new String[]{"ABC", "EF", "IJ"});
-        put("int2", 100);
-        put("int3", 100);
-        put("left2", "ABC");
-        put("left3", "ABC");
-        put("right2", "ABC");
-        put("right3", "ABC");
-        put("ignored", "1234");
-      }
-    });
+    ImmutableSortedMap.Builder<String, Object> builder = ImmutableSortedMap.naturalOrder();
+    builder.put("array1", (Object) new String[]{"ABC", "EF", "IJ"})
+        .put("int2", 100)
+        .put("int3", 100)
+        .put("left2", "ABC")
+        .put("left3", "ABC")
+        .put("right2", "ABC")
+        .put("right3", "ABC")
+        .put("ignored", "1234");
+    String res = encoder.encode(builder.build());
 
-    assertEquals(result, "array1=[ABC,EF]&int2=99&int3=100&left2=BC&left3=ABC&right2=AB&right3=ABC");
+    assertEquals("array1=[ABC,EF]&int2=99&int3=100&left2=BC&left3=ABC&right2=AB&right3=ABC", res);
   }
 
   @Test
