@@ -62,7 +62,7 @@ public final class RuleEncoder {
      * @throws IllegalArgumentException if the specified width is less than zero
      */
     public Builder width(int width) {
-      checkArgument(width > 0, "width cannot less than zero.");
+      checkArgument(width > 0, "width cannot be less than zero.");
       this.width = width;
       return this;
     }
@@ -75,7 +75,7 @@ public final class RuleEncoder {
      * @throws IllegalArgumentException if the specified width is less than zero
      */
     public Builder arrayWidth(int arrayWidth) {
-      checkArgument(arrayWidth > 0, "width cannot be less than zero.");
+      checkArgument(arrayWidth > 0, "array width cannot be less than zero.");
       this.arrayWidth = arrayWidth;
       return this;
     }
