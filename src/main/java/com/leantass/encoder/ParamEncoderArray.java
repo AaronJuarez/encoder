@@ -30,7 +30,7 @@ public class ParamEncoderArray implements Encoder {
    */
   @Inject
   public ParamEncoderArray(ParamEncoderObject paramEncoderObject) {
-    this.paramEncoderObject = paramEncoderObject;
+    this.paramEncoderObject = checkNotNull(paramEncoderObject, "ParamEncoderObject is missing.");
   }
 
   /**

@@ -22,7 +22,9 @@ public class ParamEncoderIntegrationTest {
 
   @Before
   public void setUp() {
-    encoder = new ParamEncoderImpl();
+    ParamEncoderObject paramEncoderObject = new ParamEncoderObject();
+    ParamEncoderArray paramEncoderArray = new ParamEncoderArray(paramEncoderObject);
+    encoder = new ParamEncoderImpl(paramEncoderObject, paramEncoderArray);
   }
 
   @Test

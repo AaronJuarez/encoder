@@ -2,6 +2,7 @@ package com.leantass.encoder;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -17,8 +18,14 @@ public class ParamEncoderImpl implements ParamEncoder {
   private static final String AND = "&";
   private static final String EQUAL = "=";
   private final Map<String, RuleEncoder> rules = new HashMap<>();
-  private final ParamEncoderObject objectEncoder = new ParamEncoderObject();
-  private final ParamEncoderArray arrayEncoder = new ParamEncoderArray(objectEncoder);
+  private final ParamEncoderObject paramEncoderObject;
+  private final ParamEncoderArray paramEncoderArray;
+
+  @Inject
+  public ParamEncoderImpl(ParamEncoderObject paramEncoderObject, ParamEncoderArray paramEncoderArray) {
+    this.paramEncoderObject = checkNotNull(paramEncoderObject, "ParamEncoderObject is missing.");
+    this.paramEncoderArray = checkNotNull(paramEncoderArray, "ParamEncoderArray is missing.");
+  }
 
   @Override
   public void addFieldTruncationRule(String fieldName, TruncationStyle style,
@@ -42,9 +49,9 @@ public class ParamEncoderImpl implements ParamEncoder {
     for (Entry<String, Object> entry : data.entrySet()) {
       String tmp = null;
       if (entry.getValue() instanceof Object[]) {
-        tmp = arrayEncoder.encode(entry, rules.get(entry.getKey()));
+        tmp = paramEncoderArray.encode(entry, rules.get(entry.getKey()));
       } else {
-        tmp = objectEncoder.encode(entry, rules.get(entry.getKey()));
+        tmp = paramEncoderObject.encode(entry, rules.get(entry.getKey()));
       }
       if (tmp.length() > 0) {
         if (resultString.length() > 0) {
