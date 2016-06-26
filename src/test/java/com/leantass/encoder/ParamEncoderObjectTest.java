@@ -19,6 +19,7 @@ import org.junit.rules.ExpectedException;
  */
 public class ParamEncoderObjectTest {
 
+  private static final RuleEncoder RULE = RuleEncoder.Builder.builder(INTEGER).width(2).build();
   private ParamEncoderObject instace;
   @Rule
   public final ExpectedException thrown = ExpectedException.none();
@@ -30,40 +31,46 @@ public class ParamEncoderObjectTest {
 
   @Test
   public void shouldEncodeIntegerWithWidthOfTwoIntegerLenghtOfThree() {
-    RuleEncoder rule = RuleEncoder.Builder.builder(INTEGER).width(2).build();
     Map<String, Object> map = ImmutableMap.of("param1", (Object) 123);
     Entry<String, Object> entry = map.entrySet().iterator().next();
 
-    String encoded = instace.encode(entry, rule);
+    String encoded = instace.encode(entry, RULE);
     assertEquals("99", encoded);
   }
 
   @Test
   public void shouldEncodeIntegerWithWidthOfTwoIntegerLenghtOfTwo() {
-    RuleEncoder rule = RuleEncoder.Builder.builder(INTEGER).width(2).build();
     Map<String, Object> map = ImmutableMap.of("param1", (Object) 98);
     Entry<String, Object> entry = map.entrySet().iterator().next();
 
-    String encoded = instace.encode(entry, rule);
+    String encoded = instace.encode(entry, RULE);
     assertEquals("98", encoded);
   }
 
   @Test
   public void shouldEncodeIntegerWithWidthOfTwoIntegerLenghtOfOne() {
-    RuleEncoder rule = RuleEncoder.Builder.builder(INTEGER).width(2).build();
     Map<String, Object> map = ImmutableMap.of("param1", (Object) 9);
     Entry<String, Object> entry = map.entrySet().iterator().next();
 
-    String encoded = instace.encode(entry, rule);
+    String encoded = instace.encode(entry, RULE);
     assertEquals("9", encoded);
   }
 
   @Test
   public void shouldThrowNullPointerExceptionMissingEntry() {
-    RuleEncoder rule = RuleEncoder.Builder.builder(INTEGER).width(2).build();
 
     thrown.expect(NullPointerException.class);
     thrown.expectMessage("Entry is missing.");
-    instace.encode(null, rule);
+    instace.encode(null, RULE);
+  }
+
+  @Test
+  public void shouldThrowIllegalArgumentExceptionMissingEntry() {
+    Map<String, Object> map = ImmutableMap.of("param1", (Object) 'd');
+    Entry<String, Object> entry = map.entrySet().iterator().next();
+
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("Encoding is not supported.");
+    instace.encode(entry, RULE);
   }
 }
