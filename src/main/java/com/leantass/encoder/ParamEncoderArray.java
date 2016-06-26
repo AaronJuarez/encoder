@@ -9,6 +9,8 @@ import javax.inject.Singleton;
 import java.util.Map.Entry;
 import java.util.Objects;
 
+import com.google.common.annotations.VisibleForTesting;
+
 /**
  * Specifies the behavior to encode arrays.
  *
@@ -102,6 +104,7 @@ public class ParamEncoderArray implements Encoder {
     private final String key;
     private final Object value;
 
+    @VisibleForTesting
     ElementEntry(String key, Object value) {
       this.key = key;
       this.value = value;
