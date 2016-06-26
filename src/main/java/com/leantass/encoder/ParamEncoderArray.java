@@ -1,5 +1,6 @@
 package com.leantass.encoder;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import javax.annotation.Nullable;
@@ -42,11 +43,22 @@ public class ParamEncoderArray implements Encoder {
   @Override
   public String encode(Entry<String, Object> entry, @Nullable RuleEncoder rule) {
     checkNotNull(entry, "Entry is missing.");
+    checkArgument(isEncodingSupported(entry), "Encoding is not supported.");
     String resultString = "";
     if (rule != null) {
       resultString = encodeArray(entry, rule);
     }
     return resultString;
+  }
+
+  /**
+   * Verifies if a given {@code Entry<String, Object>} can be encoded.
+   *
+   * @param entry specifies the entry to be evaluated
+   * @return <b>true</b> if the given entry can be encoded. Otherwise, will return <b>false</b>.
+   */
+  private boolean isEncodingSupported(Entry<String, Object> entry) {
+    return entry.getValue() instanceof String[];
   }
 
   /**
@@ -59,10 +71,10 @@ public class ParamEncoderArray implements Encoder {
   private String encodeArray(Entry<String, Object> entry, RuleEncoder rule) {
     checkNotNull(rule, "Rule is missing.");
     StringBuilder resultString = new StringBuilder(START);
-    Object[] array = (Object[]) entry.getValue();
-    for (Object object : array) {
+    String[] array = (String[]) entry.getValue();
+    for (String string : array) {
       String result =
-          paramEncoderObject.encode(new ElementEntry(entry.getKey(), object), rule);
+          paramEncoderObject.encode(new ElementEntry(entry.getKey(), string), rule);
       if (resultString.length() + result.length() + 2 <= rule.getArrayWidth()) {
         if (resultString.length() > 1) {
           resultString.append(DELIMITER);

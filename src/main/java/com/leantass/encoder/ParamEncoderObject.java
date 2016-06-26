@@ -65,7 +65,7 @@ public class ParamEncoderObject implements Encoder {
   @Override
   public String encode(Entry<String, Object> entry, @Nullable RuleEncoder rule) {
     checkNotNull(entry, "SortedMap is missing.");
-    checkArgument(isEncodingSupported(entry), "Illegal Object");
+    checkArgument(isEncodingSupported(entry), "Encoding is not supported.");
     String resultString = "";
     if (rule != null) {
       resultString = encodeObject(entry, rule);
