@@ -48,7 +48,7 @@ public class ParamEncoderObjectTest {
 
   @Test
   public void shouldEncodeIntegerWithWidthOfTwoIntegerLenghtOfTwo() {
-    Map<String, Object> map = ImmutableMap.of(PARAM, (Object) 98);
+    Map<String, Object> map = ImmutableMap.of(PARAM, (Object) "98");
     Entry<String, Object> entry = map.entrySet().iterator().next();
 
     String encoded = instance.encode(entry, RULE_INTEGER);
@@ -75,7 +75,7 @@ public class ParamEncoderObjectTest {
 
   @Test
   public void shouldEncodeNegativeIntegerWithWidthOfTwoIntegerLenghtOfTwo() {
-    Map<String, Object> map = ImmutableMap.of(PARAM, (Object) (-99));
+    Map<String, Object> map = ImmutableMap.of(PARAM, (Object) "-99");
     Entry<String, Object> entry = map.entrySet().iterator().next();
 
     String encoded = instance.encode(entry, RULE_INTEGER);
