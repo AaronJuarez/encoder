@@ -13,7 +13,7 @@ public class ParamEncoderImpl implements ParamEncoder {
   private static final String EQUAL = "=";
   private final Map<String, RuleEncoder> rules = new HashMap<>();
   private final ParamEncoderObject objectEncoder = new ParamEncoderObject();
-  private final ParamEncoderArray arrayEncoder = new ParamEncoderArray();
+  private final ParamEncoderArray arrayEncoder = new ParamEncoderArray(objectEncoder);
 
   @Override
   public void addFieldTruncationRule(String fieldName, TruncationStyle style,

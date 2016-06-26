@@ -9,10 +9,15 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+/**
+ * Test for class {@link RuleEncoder}.
+ *
+ * @author jovanimtzrico@gmail.com (Jovani Rico)
+ */
 public class RuleTest {
 
   //Negative scenarios for fail fast are missing.
-  RuleEncoder rule;
+  private RuleEncoder rule;
 
   @Rule
   public final ExpectedException thrown = ExpectedException.none();
