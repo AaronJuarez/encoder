@@ -3,16 +3,18 @@ package com.leantass.encoder;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.leantass.encoder.ParamEncoder.TruncationStyle;
+
 import javax.annotation.Nullable;
 import javax.inject.Singleton;
 import java.util.Map.Entry;
 
 /**
- * Specifies the behavior to encode objects. For example, consider a integer field <i>x</i> with
- * maximum width of 2 using this encoding:
+ * Specifies the behavior to encode objects. For example, consider a field <i>x</i> with maximum
+ * width ({@link RuleEncoder#getWidth()}) of 2 using this encoding:
  *
  * <ol>
- *   <li> Integer:
+ *   <li> Integer ({@link TruncationStyle#INTEGER}):
  *     <ul>
  *       <li>A value of 1 will be encoded as 1</li>
  *       <li>A value of 12 will be encoded as 12</li>
@@ -24,7 +26,7 @@ import java.util.Map.Entry;
  *     </ul>
  *   </li>
  *   <li>
- *     String <b>left truncation</b>:
+ *     String <b>left truncation</b> ({@link TruncationStyle#STRING_LEFT}):
  *     <ul>
  *       <li>A value of A will be encoded as A</li>
  *       <li>A value of AB will be encoded as AB</li>
@@ -33,7 +35,7 @@ import java.util.Map.Entry;
  *     </ul>
  *   </li>
  *   <li>
- *     String <b>right truncation</b>:
+ *     String <b>right truncation</b> ({@link TruncationStyle#STRING_RIGHT}):
  *     <ul>
  *       <li>A value of A will be encoded as A</li>
  *       <li>A value of AB will be encoded as AB</li>
