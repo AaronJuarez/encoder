@@ -143,14 +143,13 @@ public class ParamEncoderObject {
   }
 
   /**
-   * Evaluates if the given parameter if is negative.
+   * Evaluates if the given parameter if is negative integer.
    *
    * @param number the parameter that will be evaluated
-   * @return <b>true</b> if the provided parameter is negative. Otherwise, will
-   * return <b>false</b>
+   * @return <b>true</b> if the provided parameter is negative. Otherwise, will return <b>false</b>
    */
-  public boolean isNegative(String number) {
-    return Integer.valueOf(number)<0;
+  private boolean isNegative(String number) {
+    return Integer.valueOf(number) < 0;
   }
 
   /**
