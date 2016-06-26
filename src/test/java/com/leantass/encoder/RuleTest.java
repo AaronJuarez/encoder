@@ -1,17 +1,19 @@
 package com.leantass.encoder;
 
-import static org.junit.Assert.*;
-import org.junit.Rule;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import com.leantass.encoder.RuleEncoder.Builder;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 public class RuleTest {
 
   //Negative scenarios for fail fast are missing.
   RuleEncoder rule;
-  
+
   @Rule
   public final ExpectedException thrown = ExpectedException.none();
 
@@ -31,7 +33,7 @@ public class RuleTest {
     assertEquals(rule.getWidth(), 2);
     assertEquals(rule.getStyle(), ParamEncoder.TruncationStyle.INTEGER);
   }
-  
+
   @Test
   public void ruleArrayAttributes() {
     Builder builder = Builder.builder(ParamEncoder.TruncationStyle.STRING_LEFT);
@@ -41,12 +43,11 @@ public class RuleTest {
     assertEquals(rule.getArrayWidth(), 10);
     assertEquals(rule.getStyle(), ParamEncoder.TruncationStyle.STRING_LEFT);
   }
-  
+
   @Test
   public void negativeAttributes() {
     thrown.expect(IllegalArgumentException.class);
     Builder builder = Builder.builder(ParamEncoder.TruncationStyle.INTEGER);
     rule = builder.width(-2).build();
-    
   }
 }

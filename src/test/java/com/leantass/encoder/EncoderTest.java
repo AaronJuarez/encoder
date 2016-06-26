@@ -10,7 +10,7 @@ import org.junit.rules.ExpectedException;
 
 public class EncoderTest {
 
-  ParamEncoder encoder;
+  private ParamEncoder encoder;
   @Rule
   public final ExpectedException thrown = ExpectedException.none();
 

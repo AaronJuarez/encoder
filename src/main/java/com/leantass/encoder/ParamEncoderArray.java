@@ -3,7 +3,6 @@ package com.leantass.encoder;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Map.Entry;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Specifies the behavior to encode arrays.
@@ -34,7 +33,7 @@ public class ParamEncoderArray {
     StringBuilder resultString = new StringBuilder(START);
     Object[] array = (Object[]) entry.getValue();
     for (Object object : array) {
-      String result = 
+      String result =
           objectEncoder.encode(new DefaultEntry(entry.getKey(), object), rule);
       if (resultString.length() + result.length() + 2 <= rule.getArrayWidth()) {
         if (resultString.length() > 1) {

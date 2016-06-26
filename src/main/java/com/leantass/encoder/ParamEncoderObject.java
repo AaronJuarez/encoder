@@ -4,7 +4,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Map.Entry;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Specifies the behavior to encode objects.
@@ -84,8 +83,10 @@ public class ParamEncoderObject {
     }
     return resultString;
   }
-  
+
   public boolean validObject(Entry<String, Object> entry) {
-    return (entry.getValue() instanceof String || entry.getValue() instanceof Integer || entry.getValue() instanceof String[]);
+    return entry.getValue() instanceof String
+        || entry.getValue() instanceof Integer
+        || entry.getValue() instanceof String[];
   }
 }
