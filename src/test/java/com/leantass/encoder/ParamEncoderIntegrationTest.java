@@ -31,7 +31,6 @@ public class ParamEncoderIntegrationTest {
   @Test
   public void shouldEncodeIntegers() {
     encoder.addFieldTruncationRule("int2", ParamEncoder.TruncationStyle.INTEGER, 3);
-    encoder.addFieldTruncationRule("int3", ParamEncoder.TruncationStyle.INTEGER, 3);
     encoder.addFieldTruncationRule("int3", ParamEncoder.TruncationStyle.INTEGER, 2);
     SortedMap<String, Object> immutableSortedMap =
         ImmutableSortedMap.of(
