@@ -84,7 +84,7 @@ public class ParamEncoderArray implements Encoder {
    *
    * @author jovanimtzrico@gmail.com (Jovani Rico)
    */
-  private class ElementEntry implements Entry<String, Object> {
+  private static class ElementEntry implements Entry<String, Object> {
 
     private final String key;
     private final Object value;
