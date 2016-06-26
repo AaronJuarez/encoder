@@ -1,13 +1,10 @@
 package com.leantass.encoder;
 
-import com.sun.tools.doclint.Entity;
-
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import javax.annotation.Nullable;
 import javax.inject.Singleton;
-import javax.management.Query;
 import java.util.Map.Entry;
 
 /**
@@ -132,10 +129,10 @@ public class ParamEncoderObject {
    */
   private String encodeInteger(String value, int width) {
     String resultString = "";
-    if(isNegative(value)){
+    if (isNegative(value)) {
       resultString += "-";
       width--;
-      value = value.replace("-","");
+      value = value.replace("-", "");
     }
     if (isBeyondUpperBound(value, width)) {
       resultString += getLargestUpperBound(width);
