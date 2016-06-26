@@ -16,9 +16,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class ParamEncoderImplTest {
 
   @Mock
-  ParamEncoderObject paramEncoderObject;
+  private ParamEncoderObject paramEncoderObject;
   @Mock
-  ParamEncoderArray paramEncoderArray;
+  private ParamEncoderArray paramEncoderArray;
   private ParamEncoderImpl instance;
   @Rule
   public final ExpectedException thrown = ExpectedException.none();
