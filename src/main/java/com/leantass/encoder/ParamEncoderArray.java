@@ -99,12 +99,12 @@ public class ParamEncoderArray implements Encoder {
    *
    * @author jovanimtzrico@gmail.com (Jovani Rico)
    */
-  public static class ElementEntry implements Entry<String, Object> {
+  @VisibleForTesting
+  static class ElementEntry implements Entry<String, Object> {
 
     private final String key;
     private final Object value;
 
-    @VisibleForTesting
     ElementEntry(String key, Object value) {
       this.key = key;
       this.value = value;
