@@ -94,7 +94,7 @@ public class EncoderTest {
   }
 
   @Test
-  public void testAssigmentExample() {
+  public void testExampleObjects() {
     encoder.addFieldTruncationRule("left2", ParamEncoder.TruncationStyle.STRING_LEFT, 2);
     encoder.addFieldTruncationRule("left3", ParamEncoder.TruncationStyle.STRING_LEFT, 3);
     encoder.addFieldTruncationRule("right2", ParamEncoder.TruncationStyle.STRING_RIGHT, 2);
@@ -130,5 +130,19 @@ public class EncoderTest {
       }
     });
     assertEquals(result, "array1=[A,B,C]&array2=[D,E,F]");
+  }
+
+  @Test
+  public void testObjectArray() {
+    thrown.expect(IllegalArgumentException.class);
+    encoder.addArrayTruncationRule("array1", 10, ParamEncoder.TruncationStyle.STRING_RIGHT, 3);
+    encoder.addArrayTruncationRule("array2", 13, ParamEncoder.TruncationStyle.STRING_LEFT, 3);
+
+    String result = encoder.encode(new TreeMap<String, Object>() {
+      {
+        put("array1", new Object[]{new Object(), new Object()});
+      }
+    });
+    System.out.println(result);
   }
 }
