@@ -151,7 +151,7 @@ public class ParamEncoderArrayTest {
 
   @Test
   public void shouldThrowIllegalArgumentExceptionEncodingNotSupported() {
-    Map<String, Object> map = ImmutableMap.of("param1", (Object) new Character[]{'f', 'g', 'a'});
+    Map<String, Object> map = ImmutableMap.of("param1", (Object) new Integer[]{12, 3, 45, 6});
     Map.Entry<String, Object> entry = map.entrySet().iterator().next();
 
     thrown.expect(IllegalArgumentException.class);
