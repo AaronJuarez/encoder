@@ -173,6 +173,15 @@ public class ParamEncoderObjectTest {
   }
 
   @Test
+  public void shouldNotEncodeAnEmptyIntegerThrowsNumberFormatException() {
+    Map<String, Object> map = ImmutableMap.of(PARAM, (Object) "");
+    Map.Entry<String, Object> entry = map.entrySet().iterator().next();
+
+    thrown.expect(NumberFormatException.class);
+    instance.encode(entry, RULE_INTEGER);
+  }
+
+  @Test
   public void shouldNotEncodeMissingRule() {
     Map<String, Object> map = ImmutableMap.of(PARAM, (Object) "ABCD");
     Entry<String, Object> entry = map.entrySet().iterator().next();
