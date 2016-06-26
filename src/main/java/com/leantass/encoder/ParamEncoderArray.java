@@ -105,8 +105,8 @@ public class ParamEncoderArray {
     private final Object value;
 
     ElementEntry(String key, Object value) {
-      this.key = key;
-      this.value = value;
+      this.key = checkNotNull(key, "Key is missing.");
+      this.value = checkNotNull(value, "Value is missing.");
     }
 
     @Override
@@ -125,7 +125,7 @@ public class ParamEncoderArray {
      */
     @Override
     public Object setValue(Object value) {
-      throw new UnsupportedOperationException("Not supported yet.");
+      throw new UnsupportedOperationException("Operation is not supported.");
     }
 
     @Override
