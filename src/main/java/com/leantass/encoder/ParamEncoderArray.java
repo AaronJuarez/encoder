@@ -7,6 +7,9 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.Map.Entry;
+import java.util.Objects;
+
+import com.google.common.annotations.VisibleForTesting;
 
 /**
  * Specifies the behavior to encode arrays.
@@ -96,12 +99,13 @@ public class ParamEncoderArray implements Encoder {
    *
    * @author jovanimtzrico@gmail.com (Jovani Rico)
    */
-  private static class ElementEntry implements Entry<String, Object> {
+  @VisibleForTesting
+  static class ElementEntry implements Entry<String, Object> {
 
     private final String key;
     private final Object value;
 
-    private ElementEntry(String key, Object value) {
+    ElementEntry(String key, Object value) {
       this.key = key;
       this.value = value;
     }
@@ -123,6 +127,20 @@ public class ParamEncoderArray implements Encoder {
     @Override
     public Object setValue(Object value) {
       throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(key, value);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (obj == null || !(obj instanceof ElementEntry)) {
+        return false;
+      }
+      ElementEntry tmp = (ElementEntry) obj;
+      return Objects.equals(key, tmp.key) && Objects.equals(value, tmp.value);
     }
   }
 }
