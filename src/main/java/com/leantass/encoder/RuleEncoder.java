@@ -4,8 +4,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.leantass.encoder.ParamEncoder.TruncationStyle;
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Specifies the encoding rules.
@@ -40,6 +38,7 @@ public final class RuleEncoder {
 
   // Builder pattern builds a complex object using simple objects and using a
   // step by step approach.
+
   /**
    * Builder of {@link RuleEncoder} instances.
    *
@@ -105,9 +104,7 @@ public final class RuleEncoder {
     }
 
     /**
-     * Returns a new builder with the a specific {
-     *
-     * @TruncationStyle style}.
+     * Returns a new builder with the a specific {@link TruncationStyle}.
      *
      * @param style specifies the desired truncation style that will be used
      * @return a new {@code Builder} instance

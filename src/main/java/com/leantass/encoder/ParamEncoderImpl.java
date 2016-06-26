@@ -1,12 +1,11 @@
 package com.leantass.encoder;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.SortedMap;
-import static com.google.common.base.Preconditions.checkNotNull;
 
 public class ParamEncoderImpl implements ParamEncoder {
 
@@ -14,18 +13,18 @@ public class ParamEncoderImpl implements ParamEncoder {
   private static final String EQUAL = "=";
   private final Map<String, RuleEncoder> rules = new HashMap<>();
   private final ParamEncoderObject objectEncoder = new ParamEncoderObject();
-  private final ParamEncoderArray arrayEncoder = new ParamEncoderArray();
+  private final ParamEncoderArray arrayEncoder = new ParamEncoderArray(objectEncoder);
 
   @Override
   public void addFieldTruncationRule(String fieldName, TruncationStyle style,
-      int maxWidth) {
+                                     int maxWidth) {
     RuleEncoder newRule = RuleEncoder.Builder.builder(style).width(maxWidth).build();
     rules.put(fieldName, newRule);
   }
 
   @Override
   public void addArrayTruncationRule(String fieldName, int maxArrayWidth,
-      TruncationStyle elemStyle, int maxElemWidth) {
+                                     TruncationStyle elemStyle, int maxElemWidth) {
     RuleEncoder newRule = RuleEncoder.Builder.builder(elemStyle).width(maxElemWidth)
         .arrayWidth(maxArrayWidth).build();
     rules.put(fieldName, newRule);
