@@ -17,7 +17,7 @@ import com.google.common.annotations.VisibleForTesting;
  * @author jovanimtzrico@gmail.com (Jovani Rico)
  */
 @Singleton
-public class ParamEncoderArray implements Encoder {
+public class ParamEncoderArray {
 
   private static final String START = "[";
   private static final String END = "]";
@@ -43,7 +43,6 @@ public class ParamEncoderArray implements Encoder {
    * @param rule  specifies the rule that will be used to encode the array
    * @return an encoded array as {@link String}
    */
-  @Override
   public String encode(Entry<String, Object> entry, @Nullable RuleEncoder rule) {
     checkNotNull(entry, "Entry is missing.");
     checkArgument(isEncodingSupported(entry), "Encoding is not supported.");

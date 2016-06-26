@@ -1,10 +1,13 @@
 package com.leantass.encoder;
 
+import com.sun.tools.doclint.Entity;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import javax.annotation.Nullable;
 import javax.inject.Singleton;
+import javax.management.Query;
 import java.util.Map.Entry;
 
 /**
@@ -46,7 +49,7 @@ import java.util.Map.Entry;
  * @author jovanimtzrico@gmail.com (Jovani Rico)
  */
 @Singleton
-public class ParamEncoderObject implements Encoder {
+public class ParamEncoderObject {
 
   /**
    * Encode the provided parameter as an {@code Entry<String, Object>} using a specific rule. It
@@ -62,7 +65,6 @@ public class ParamEncoderObject implements Encoder {
    * @param rule  specifies the rule that will be used to encode the given parameter
    * @return an encoded parameter as {@link String}
    */
-  @Override
   public String encode(Entry<String, Object> entry, @Nullable RuleEncoder rule) {
     checkNotNull(entry, "Entry is missing.");
     checkArgument(isEncodingSupported(entry), "Encoding is not supported.");
@@ -129,13 +131,29 @@ public class ParamEncoderObject implements Encoder {
    * @return an encoded representation of the provided parameter
    */
   private String encodeInteger(String value, int width) {
-    String resultString;
+    String resultString = "";
+    if(isNegative(value)){
+      resultString += "-";
+      width--;
+      value = value.replace("-","");
+    }
     if (isBeyondUpperBound(value, width)) {
-      resultString = getLargestUpperBound(width);
+      resultString += getLargestUpperBound(width);
     } else {
-      resultString = value;
+      resultString += value;
     }
     return resultString;
+  }
+
+  /**
+   * Evaluates if the given parameter if is negative.
+   *
+   * @param number the parameter that will be evaluated
+   * @return <b>true</b> if the provided parameter is negative. Otherwise, will
+   * return <b>false</b>
+   */
+  public boolean isNegative(String number) {
+    return Integer.valueOf(number)<0;
   }
 
   /**
@@ -148,7 +166,6 @@ public class ParamEncoderObject implements Encoder {
    */
   private boolean isBeyondUpperBound(String value, int bound) {
     Integer intValue = Integer.valueOf(value);
-    System.out.println("intValue "+intValue);
     Double limit = Math.log10(intValue);
     return (limit.intValue() + 1) > bound;
   }

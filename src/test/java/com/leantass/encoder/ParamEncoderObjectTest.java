@@ -62,7 +62,7 @@ public class ParamEncoderObjectTest {
     Entry<String, Object> entry = map.entrySet().iterator().next();
 
     String encoded = instance.encode(entry, RULE);
-    assertEquals("9", encoded);
+    assertEquals("-9", encoded);
   }
 
   @Test
