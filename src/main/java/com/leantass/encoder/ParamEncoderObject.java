@@ -6,7 +6,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.leantass.encoder.ParamEncoder.TruncationStyle;
 
 import javax.annotation.Nullable;
-import javax.inject.Singleton;
 import java.util.Map.Entry;
 
 /**
@@ -47,7 +46,6 @@ import java.util.Map.Entry;
  *
  * @author jovanimtzrico@gmail.com (Jovani Rico)
  */
-@Singleton
 public class ParamEncoderObject {
 
   /**
