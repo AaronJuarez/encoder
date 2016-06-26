@@ -22,14 +22,29 @@ public final class RuleEncoder {
     this.arrayWidth = builder.arrayWidth;
   }
 
+  /**
+   * Specifies the max number of characters that should be used for encoding an object.
+   *
+   * @return the max number of characters that should be used to encode and object
+   */
   public int getWidth() {
     return width;
   }
 
+  /**
+   * Specifies max number of characters that should be used for encoding an array.
+   *
+   * @return the max number of characters that should be used for encoding an array
+   */
   public int getArrayWidth() {
     return arrayWidth;
   }
 
+  /**
+   * Specifies the {@link TruncationStyle} that will be used to encode an object.
+   *
+   * @return the style to use for encoding
+   */
   public TruncationStyle getStyle() {
     return this.style;
   }

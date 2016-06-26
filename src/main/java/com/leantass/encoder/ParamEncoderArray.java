@@ -12,8 +12,22 @@ import java.util.Objects;
 import com.google.common.annotations.VisibleForTesting;
 
 /**
- * Specifies the behavior to encode arrays.
- *
+ * Specifies the behavior to encode arrays. The arrays are encoded as comma-separated values
+ * enclosed by square brackets. Each element of the array is to be encoded in the given
+ * TruncationStyle, with no element taking more than {@link RuleEncoder#getWidth()} characters.
+ * The array as a whole, including the square brackets and the separator commas, should not take
+ * more than {@link RuleEncoder#getArrayWidth()} characters. For example, consider an array field
+ * "x" with maximum array width ({@link RuleEncoder#getArrayWidth()}) 10 using
+ * {@link ParamEncoder.TruncationStyle#STRING_RIGHT} truncation style and maximum element width
+ * ({@link RuleEncoder#getWidth()}) 3:
+ * <ul>
+ *   <li>A value of ”AB”, ”CD” will be encoded as [AB,CD]</li>
+ *   <li>A value of ”AB”, ”CDEF” will be encoded as [AB,CDE]; the second element got truncated
+ *   in STRING_RIGHT style.</li>
+ *   <li>A value of ”AB”, ”CDEF”, ”GHIJ”, ”K” will be encoded as [AB,CDE]; including the
+ *   encoding of third element will make the encoded string longer than 10 characters, so it and
+ *   all subsequent elements are dropped from the output</li>
+ * </ul>
  * @author jovanimtzrico@gmail.com (Jovani Rico)
  */
 @Singleton
@@ -37,7 +51,18 @@ public class ParamEncoderArray {
   }
 
   /**
-   * Encode the provided array using a given rule.
+   * Encode the provided array using a given rule. For example, consider an array field
+   * "x" with maximum array width ({@link RuleEncoder#getArrayWidth()}) 10 using
+   * {@link ParamEncoder.TruncationStyle#STRING_RIGHT} truncation style and maximum element width
+   * ({@link RuleEncoder#getWidth()}) 3:
+   * <ul>
+   *   <li>A value of ”AB”, ”CD” will be encoded as [AB,CD]</li>
+   *   <li>A value of ”AB”, ”CDEF” will be encoded as [AB,CDE]; the second element got truncated
+   *   in STRING_RIGHT style.</li>
+   *   <li>A value of ”AB”, ”CDEF”, ”GHIJ”, ”K” will be encoded as [AB,CDE]; including the
+   *   encoding of third element will make the encoded string longer than 10 characters, so it and
+   *   all subsequent elements are dropped from the output</li>
+   * </ul>
    *
    * @param entry specifies the array parameter to be encoded
    * @param rule  specifies the rule that will be used to encode the array
