@@ -8,13 +8,60 @@ import javax.inject.Singleton;
 import java.util.Map.Entry;
 
 /**
- * Specifies the behavior to encode objects.
+ * Specifies the behavior to encode objects. For example, consider a integer field <i>x</i> with
+ * maximum width of 2 using this encoding:
+ *
+ * <ol>
+ *   <li> Integer:
+ *     <ul>
+ *       <li>A value of 1 will be encoded as 1</li>
+ *       <li>A value of 12 will be encoded as 12</li>
+ *       <li>A value of 123 will be encoded as 99, since 99 is the largest positive number that
+ *       can be encoded with 2 characters</li>
+ *       <li>A value of -1 will be encoded as -1</li>
+ *       <li>A value of -12 will be encoded as -9, since -9 is the smallest negative number that
+ *       can be encoded with 2 characters.</li>
+ *     </ul>
+ *   </li>
+ *   <li>
+ *     String <b>left truncation</b>:
+ *     <ul>
+ *       <li>A value of A will be encoded as A</li>
+ *       <li>A value of AB will be encoded as AB</li>
+ *       <li>A value of ABC will be encoded as BC, truncating on the left</li>
+ *       <li>A value of ABCD will be encoded as CD, truncating on the left</li>
+ *     </ul>
+ *   </li>
+ *   <li>
+ *     String <b>right truncation</b>:
+ *     <ul>
+ *       <li>A value of A will be encoded as A</li>
+ *       <li>A value of AB will be encoded as AB</li>
+ *       <li>A value of ABC will be encoded as AB, truncating on the right</li>
+ *       <li>A value of ABCD will be encoded as AB, truncating on the right</li>
+ *     </ul>
+ *   </li>
+ * </ol>
  *
  * @author jovanimtzrico@gmail.com (Jovani Rico)
  */
 @Singleton
 public class ParamEncoderObject implements Encoder {
 
+  /**
+   * Encode the provided parameter as an {@code Entry<String, Object>} using a specific rule. It
+   * encodes a {@link String} or {@link Integer} parameter using:
+   *
+   * <ul>
+   *   <li>Integer width</li>
+   *   <li>String <b>left</b> truncation</li>
+   *   <li>String <b>right</b> truncation</li>
+   * </ul>
+   *
+   * @param entry specifies the parameter to be encoded
+   * @param rule  specifies the rule that will be used to encode the given parameter
+   * @return an encoded parameter as {@link String}
+   */
   @Override
   public String encode(Entry<String, Object> entry, @Nullable RuleEncoder rule) {
     checkNotNull(entry, "SortedMap is missing.");
