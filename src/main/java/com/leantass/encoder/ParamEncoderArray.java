@@ -123,12 +123,12 @@ public class ParamEncoderArray {
    *
    * @author jovanimtzrico@gmail.com (Jovani Rico)
    */
-  @VisibleForTesting
   static class ElementEntry implements Entry<String, Object> {
 
     private final String key;
     private final Object value;
 
+    @VisibleForTesting
     ElementEntry(String key, Object value) {
       this.key = checkNotNull(key, "Key is missing.");
       this.value = checkNotNull(value, "Value is missing.");
