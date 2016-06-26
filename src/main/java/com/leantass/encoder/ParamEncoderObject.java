@@ -46,7 +46,7 @@ import java.util.Map.Entry;
  * @author jovanimtzrico@gmail.com (Jovani Rico)
  */
 @Singleton
-public class ParamEncoderObject implements Encoder {
+public class ParamEncoderObject {
 
   /**
    * Encode the provided parameter as an {@code Entry<String, Object>} using a specific rule. It
@@ -62,7 +62,6 @@ public class ParamEncoderObject implements Encoder {
    * @param rule  specifies the rule that will be used to encode the given parameter
    * @return an encoded parameter as {@link String}
    */
-  @Override
   public String encode(Entry<String, Object> entry, @Nullable RuleEncoder rule) {
     checkNotNull(entry, "Entry is missing.");
     checkArgument(isEncodingSupported(entry), "Encoding is not supported.");
