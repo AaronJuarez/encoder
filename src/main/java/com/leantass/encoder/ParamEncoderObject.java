@@ -1,10 +1,13 @@
 package com.leantass.encoder;
 
+import com.sun.tools.doclint.Entity;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import javax.annotation.Nullable;
 import javax.inject.Singleton;
+import javax.management.Query;
 import java.util.Map.Entry;
 
 /**
@@ -128,13 +131,29 @@ public class ParamEncoderObject {
    * @return an encoded representation of the provided parameter
    */
   private String encodeInteger(String value, int width) {
-    String resultString;
+    String resultString = "";
+    if(isNegative(value)){
+      resultString += "-";
+      width--;
+      value = value.replace("-","");
+    }
     if (isBeyondUpperBound(value, width)) {
-      resultString = getLargestUpperBound(width);
+      resultString += getLargestUpperBound(width);
     } else {
-      resultString = value;
+      resultString += value;
     }
     return resultString;
+  }
+
+  /**
+   * Evaluates if the given parameter if is negative.
+   *
+   * @param number the parameter that will be evaluated
+   * @return <b>true</b> if the provided parameter is negative. Otherwise, will
+   * return <b>false</b>
+   */
+  public boolean isNegative(String number) {
+    return Integer.valueOf(number)<0;
   }
 
   /**
