@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="7" failures="0" name="com.leantass.encoder.EncoderTest" time="0.393" errors="0" skipped="0">
+<testsuite tests="7" failures="0" name="com.leantass.encoder.EncoderTest" time="0.215" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_71.jdk/Contents/Home/jre/lib"/>
@@ -62,11 +62,11 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="com.leantass.encoder.EncoderTest" name="testObjectArray" time="0.112"/>
-  <testcase classname="com.leantass.encoder.EncoderTest" name="testArray" time="0.007"/>
-  <testcase classname="com.leantass.encoder.EncoderTest" name="testCharacterArray" time="0.005"/>
+  <testcase classname="com.leantass.encoder.EncoderTest" name="testObjectArray" time="0.047"/>
+  <testcase classname="com.leantass.encoder.EncoderTest" name="testArray" time="0.009"/>
+  <testcase classname="com.leantass.encoder.EncoderTest" name="testCharacterArray" time="0.003"/>
   <testcase classname="com.leantass.encoder.EncoderTest" name="addInteger" time="0.002"/>
-  <testcase classname="com.leantass.encoder.EncoderTest" name="testMixobjects" time="0.002"/>
-  <testcase classname="com.leantass.encoder.EncoderTest" name="testExampleObjects" time="0.003"/>
-  <testcase classname="com.leantass.encoder.EncoderTest" name="testString" time="0.003"/>
+  <testcase classname="com.leantass.encoder.EncoderTest" name="testMixobjects" time="0.001"/>
+  <testcase classname="com.leantass.encoder.EncoderTest" name="testExampleObjects" time="0.001"/>
+  <testcase classname="com.leantass.encoder.EncoderTest" name="testString" time="0.002"/>
 </testsuite>
