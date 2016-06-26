@@ -1,12 +1,11 @@
 package com.leantass.encoder;
 
+import static com.leantass.encoder.ParamEncoder.TruncationStyle.INTEGER;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.SortedMap;
 
@@ -42,9 +41,9 @@ public class ParamEncoderImplTest {
 
   @Test
   public void shouldEncode() {
-    encoder.addFieldTruncationRule("int1", ParamEncoder.TruncationStyle.INTEGER, 2);
-    encoder.addFieldTruncationRule("int2", ParamEncoder.TruncationStyle.INTEGER, 2);
-    encoder.addFieldTruncationRule("int3", ParamEncoder.TruncationStyle.INTEGER, 2);
+    encoder.addFieldTruncationRule("int1", INTEGER, 2);
+    encoder.addFieldTruncationRule("int2", INTEGER, 2);
+    encoder.addFieldTruncationRule("int3", INTEGER, 2);
     SortedMap<String, Object> immutableSortedMap =
         ImmutableSortedMap.of(
             "int1", (Object) 99,
