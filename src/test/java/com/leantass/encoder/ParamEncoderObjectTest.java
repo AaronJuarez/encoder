@@ -58,7 +58,6 @@ public class ParamEncoderObjectTest {
 
   @Test
   public void shouldThrowNullPointerExceptionMissingEntry() {
-
     thrown.expect(NullPointerException.class);
     thrown.expectMessage("Entry is missing.");
     instance.encode(null, RULE);
