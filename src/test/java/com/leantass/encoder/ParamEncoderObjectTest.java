@@ -4,6 +4,7 @@ import static com.leantass.encoder.ParamEncoder.TruncationStyle.INTEGER;
 import static com.leantass.encoder.ParamEncoder.TruncationStyle.STRING_LEFT;
 import static com.leantass.encoder.ParamEncoder.TruncationStyle.STRING_RIGHT;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.Map;
 import java.util.Map.Entry;
@@ -161,6 +162,15 @@ public class ParamEncoderObjectTest {
 
     String encoded = instance.encode(entry, RULE_RIGHT);
     assertEquals("AB", encoded);
+  }
+
+  @Test
+  public void shouldNotEncodeMissingRule() {
+    Map<String, Object> map = ImmutableMap.of(PARAM, (Object) "ABCD");
+    Entry<String, Object> entry = map.entrySet().iterator().next();
+
+    String encoded = instance.encode(entry, null);
+    assertEquals("", encoded);
   }
 
   @Test
