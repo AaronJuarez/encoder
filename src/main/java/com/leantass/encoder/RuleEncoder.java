@@ -3,6 +3,8 @@ package com.leantass.encoder;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.util.Objects;
+
 import com.leantass.encoder.ParamEncoder.TruncationStyle;
 
 /**
@@ -47,6 +49,22 @@ public final class RuleEncoder {
    */
   public TruncationStyle getStyle() {
     return this.style;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(style, width, arrayWidth);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null || !(obj instanceof RuleEncoder)) {
+      return false;
+    }
+    RuleEncoder tmp = (RuleEncoder) obj;
+    return Objects.equals(style, tmp.getStyle())
+        && Objects.equals(width, tmp.getWidth())
+        && Objects.equals(arrayWidth, tmp.getArrayWidth());
   }
 
   /**
