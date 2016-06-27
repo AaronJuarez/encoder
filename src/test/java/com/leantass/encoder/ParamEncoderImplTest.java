@@ -2,7 +2,6 @@ package com.leantass.encoder;
 
 import static com.leantass.encoder.ParamEncoder.TruncationStyle.INTEGER;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
@@ -46,13 +45,16 @@ public class ParamEncoderImplTest {
     encoder.addFieldTruncationRule("int3", INTEGER, 2);
     SortedMap<String, Object> immutableSortedMap =
         ImmutableSortedMap.of(
-            "int1", (Object) 99,
-            "int2", (Object) 99,
-            "int3", (Object) 99);
-    when(paramEncoderObject.encode(any(Entry.class), any(RuleEncoder.class))).thenReturn("99");
+            "int1", (Object) 98,
+            "int2", (Object) 12,
+            "int3", (Object) 5);
+    for (Entry<String, Object> entry : immutableSortedMap.entrySet()) {
+      RuleEncoder rule = RuleEncoder.Builder.builder(INTEGER).width(2).build();
+      when(paramEncoderObject.encode(entry, rule)).thenReturn(entry.getValue().toString());
+    }
 
     String result = encoder.encode(immutableSortedMap);
-    assertEquals("int1=99&int2=99&int3=99", result);
+    assertEquals("int1=98&int2=12&int3=5", result);
     verifyZeroInteractions(paramEncoderArray);
   }
 
